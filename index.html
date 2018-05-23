@@ -1,0 +1,112 @@
+<html>
+  <head>
+ <title>My Zombie Gam</title>
+<style>
+#zombie_map {
+    height: 100%;
+    width: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    background-color: grey;
+}
+</style>
+  </head>
+  <body>
+<div id="zombie_map"></div>
+
+<script>
+var zombie_map;
+var data = `-33.32709551286162 115.63344300398239 hospital.png
+-33.3266039133103 115.63336803408765 hospital.png
+-33.3279738127562 115.63306910818301 hospital.png
+-33.327106506300055 115.6330852014371 zombie.png
+-33.32719166855652 115.63303423946581 zombie.png
+-33.32714684632665 115.63312007015429 zombie.png
+-33.32744491372215 115.63347412174426 zombie.png
+-33.327610755290195 115.63335301557174 zombie.png
+-33.32753231675005 115.6334361640512 zombie.png
+-33.327648647099146 115.63299750598344 zombie.png
+-33.32790413202923 115.63352321895036 zombie.png
+-33.32771588004811 115.63316380294236 zombie.png
+-33.32778087184946 115.63328182013902 zombie.png
+-33.327431260209096 115.63312088759812 zombie.png
+-33.32817388659779 115.63296531947526 zombie.png
+-33.328086361636586 115.63278670114641 zombie.png
+-33.32801912897349 115.63250775140887 zombie.png
+-33.328146870989 115.6324406961835 zombie.png
+-33.328153594247794 115.63254798454409 zombie.png
+-33.32806902249715 115.63328382688837 zombie.png
+-33.32813177294839 115.63342061954813 zombie.png
+-33.32690743087125 115.63258251054185 zombie.png
+-33.3269119131076 115.63245912892717 zombie.png
+-33.32673934684205 115.63243498904603 zombie.png
+-33.32682675057771 115.63235452277559 zombie.png
+-33.32696121769212 115.63290437562364 hospital.png
+-33.32693432428583 115.63281854493516 weapons.png
+-33.326905189753 115.63299825293916 weapons.png
+-33.32660487938524 115.63286950690645 weapons.png
+-33.3267079711207 115.63306262595552 weapons.png
+-33.32673486459684 115.63340326650041 weapons.png
+-33.327099318985425 115.63357224566835 weapons.png
+-33.32749049428846 115.63329183285646 weapons.png
+-33.32753307523945 115.63324355309419 weapons.png
+-33.327642889174925 115.63353859608583 weapons.png
+-33.327844575988564 115.63269641091813 weapons.png
+-33.327902844416315 115.63261594464768 weapons.png
+-33.327905085508895 115.63273932626237 weapons.png
+-33.32795214844012 115.63262130906571 weapons.png
+-33.32728205954765 115.63188906600465 zombie.png
+-33.32738066826992 115.63238795688142 zombie.png
+-33.32785129927068 115.63167985370148 zombie.png
+-33.32785129927068 115.63214655807008 zombie.png
+-33.32736722163254 115.63166912486543 zombie.png
+-33.32816953403061 115.63210364272584 zombie.png
+-33.3281112657812 115.63169058253754 weapons.png
+-33.327438937007884 115.63204463412751 weapons.png`;
+var markers = data.split("\n");
+all_markers = [];
+
+    function initMap() {
+
+            zombie_map = new google.maps.Map(document.getElementById('zombie_map'), {
+            zoom: 10,
+            center: {lat: -33.3276 , lng: 115.6330}
+        });
+	
+	if(navigator.geolocation) {
+    		navigator.geolocation.watchPosition(set_my_position);
+	}
+	else {
+    		alert("Geolocation doesn't work in your browser");
+	}
+
+	for(var i = 0; i < markers.length; i++){
+		var marker_data = markers[i].trim();
+		    marker_data = marker_data.split(" ");
+		var latitude = marker_data[0];
+		var longitude = marker_data[1];
+		var emoji = marker_data[2];
+		var marker_position = new google.maps.LatLng(latitude, longitude);
+		var marker = new google.maps.Marker({
+  			position: marker_position,
+  			map: zombie_map,
+			icon: emoji
+			});
+			all_markers.push(marker);
+}
+function set_my_position(position){
+var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+var marker = new google.maps.Marker({
+          position: pos,
+          icon: "player.png",
+          map: zombie_map
+        });
+}
+}
+</script>
+    <script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACq65pAXHvy4MB5gcbumEHzbRSG1EE1cU&callback=initMap">
+</script>
+  </body>
+</html>
